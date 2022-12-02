@@ -24,7 +24,7 @@ print(full_lists)
 
 columns = ['Rank', 'Movie', 'Release Date', 'Distributor', 'Genre', '2022 Gross', 'Tickets Sold']
 
-with open('movies.csv', 'w', newline='') as f:
+with open('movies.csv', 'w', encoding = 'utf-8', newline='') as f:
     write = csv.writer(f)
     write.writerow(columns)
     write.writerows(full_lists)
