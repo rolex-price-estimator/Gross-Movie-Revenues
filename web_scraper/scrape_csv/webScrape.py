@@ -19,7 +19,7 @@ for tr in soup.find_all('tr'):
 print(len(movie_list))
 
 full_lists = list(divide_chunks(movie_list, 7))
-print(lists)
+print(full_lists)
 
 
 columns = ['Rank', 'Movie', 'Release Date', 'Distributor', 'Genre', '2022 Gross', 'Tickets Sold']
@@ -27,4 +27,4 @@ columns = ['Rank', 'Movie', 'Release Date', 'Distributor', 'Genre', '2022 Gross'
 with open('movies.csv', 'w', encoding='utf-8') as f:
     write = csv.writer(f)
     write.writerow(columns)
-    write.writerows(lists)
+    write.writerows(full_lists)
