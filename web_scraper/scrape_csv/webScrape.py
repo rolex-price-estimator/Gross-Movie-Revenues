@@ -7,7 +7,7 @@ from divide_chunks import divide_chunks
 URL = 'https://www.the-numbers.com/market/2022/top-grossing-movies'
 req = Request(URL, headers={'User-Agent': 'Mozilla/5.0'})
 webpage = urlopen(req).read()
-soup = bs(webpage, 'html.parser')
+soup = bs(webpage, 'html.parser', from_encoding = 'utf-8')
 
 
 movie_list = []
@@ -24,7 +24,7 @@ print(full_lists)
 
 columns = ['Rank', 'Movie', 'Release Date', 'Distributor', 'Genre', '2022 Gross', 'Tickets Sold']
 
-with open('movies.csv', 'w', encoding='utf-8', newline='') as f:
+with open('movies.csv', 'w', newline='') as f:
     write = csv.writer(f)
     write.writerow(columns)
     write.writerows(full_lists)
