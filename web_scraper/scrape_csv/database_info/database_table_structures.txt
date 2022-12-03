@@ -1,0 +1,11 @@
+CREATE TABLE moviesgross(
+  moviegross_id INT GENERATED ALWAYS AS IDENTITY,
+  year INT NOT NULL,
+  rank INT NOT NULL,
+  title VARCHAR(100) NOT NULL,
+  release_date VARCHAR(30) NOT NULL,
+  distributor VARCHAR(75) NOT NULL,
+  genre VARCHAR(75) NOT NULL,
+  gross INT NOT NULL,
+  tickets_sold INT NOT NULL
+);
