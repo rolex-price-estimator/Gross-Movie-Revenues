@@ -4,6 +4,7 @@ import re
 import csv
 from divide_chunks import divide_chunks
 
+## Scraping The-Numbers website for their annual top grossing movies 
 ## Full scraper of the-numbers site capturing data from 2010-2021
 
 for year in reversed(range(2000, 2022)):
