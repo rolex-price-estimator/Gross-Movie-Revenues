@@ -9,3 +9,20 @@ CREATE TABLE moviesgross(
   gross INT NOT NULL,
   tickets_sold INT NOT NULL
 );
+
+CREATE TABLE movieinfo(
+  movieinfo_id INT GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(100) NOT NULL,
+  year INT NOT NULL,
+  rated VARCHAR(10) NOT NULL,
+  released VARCHAR(25) NOT NULL,
+  runtime VARCHAR(20) NOT NULL,
+  genre VARCHAR(50) NOT NULL,
+  director VARCHAR(50) NOT NULL,
+  writer VARCHAR(50) NOT NULL,
+  actors VARCHAR(500) NOT NULL,
+  plot VARCHAR(1000) NOT NULL,
+  language VARCHAR(100) NOT NULL,
+  country VARCHAR(100) NOT NULL,
+  poster VARCHAR(1000) NOT NULL
+);
