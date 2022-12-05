@@ -6,6 +6,7 @@ import config
 import json
 import pandas as pd
 import csv
+from tqdm import tqdm
 
 url = "https://moviesdb5.p.rapidapi.com/om"
 
@@ -26,7 +27,7 @@ movieName = movieList
 # print(movieName)
 
 movieInfo = []
-for i in movieName:
+for i in tqdm(movieName):
     querystring = {"t": i}  ## Replace the key with "s" to search for series and "i" to search by movie ID
     response = requests.request("GET", url, headers=headers, params=querystring)
     json_data = json.loads(response.text)   # Loads response text into a dictionary type
