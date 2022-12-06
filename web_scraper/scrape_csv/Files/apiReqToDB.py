@@ -45,6 +45,9 @@ def apiRequest():
   # Convert to df
   df = pd.DataFrame.from_dict(movieInfo)
   
+  # Create a CSV
+  df.to_csv('M_Part.csv', index=False)
+
   # add datafram data to database table
   loadAndInsertIntoDatabase(df)
 
