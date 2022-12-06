@@ -22,7 +22,7 @@ def apiRequest():
 
   # !!!!!!!!!!!!!!!!!!!!!!!!
   # change to your file path 
-  path = 'Archive/RyanMovies.csv'
+  path = 'Archive/MargaretMovies.csv'
 
   df = pd.read_csv(path)
   movieList = df['Movie'].values.tolist()
