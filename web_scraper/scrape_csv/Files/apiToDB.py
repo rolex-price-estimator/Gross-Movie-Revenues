@@ -1,8 +1,10 @@
 import csv
 import sqlalchemy as db 
 import psycopg2
-from ..database_info.dbinformation import db_info
+from database_info.dbinformation import db_info
 import pandas as pd
+
+
 
 def loadAndInsertIntoDatabase():
     url = f"{db_info['user']}:{db_info['pw']}@{db_info['url']}/{db_info['user']}"
@@ -38,10 +40,10 @@ def loadAndInsertIntoDatabase():
 def loadInCSVFiles():
   data1 = pd.read_csv('KPart.csv')
   data2 = pd.read_csv('RPart.csv')
-  data3 = pd.read_csv('MPart.csv')
+
 
   # return a list of dataframes
-  return [data1, data2, data3]
+  return [data1, data2]
 
 if __name__ == '__main__':
-    loadAndInsertIntoDatabase
+    loadAndInsertIntoDatabase()
