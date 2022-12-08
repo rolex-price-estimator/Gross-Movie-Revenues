@@ -49,8 +49,9 @@ def predict(row):
   # return generic number for template rendering
   prediction = 1029384756
 
-  # '{:,}'.format(str(prediction))
+  # format prediction into human readable string
+  # representanted in dollar format
+  prediction = "{:,}".format(prediction)
+  prediction = '$' + prediction
 
-  # prediction = '$' + prediction
-
-  return str(prediction)
+  return prediction
