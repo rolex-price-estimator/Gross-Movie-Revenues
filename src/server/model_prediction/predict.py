@@ -2,7 +2,10 @@ import requests
 import json
 import model_prediction.config as config
 import pandas as pd
+
 # import serialized model
+import pickle
+
 
 def apiQuery(title):
   url = "https://moviesdb5.p.rapidapi.com/om"
@@ -44,8 +47,12 @@ def formatData(df):
 
 # return model prediction on row
 def predict(row):
-  # make model prediction here and return...
-  print("ALSO IN HERE!")
+  # load in gross movie revenue model
+  model = pickle.load(open('./model/model.pkl', 'rb'))
+  
+  # predict on input parameter - row
+  # prediction = model.predict(row)
+
   # return generic number for template rendering
   prediction = 1029384756
 
