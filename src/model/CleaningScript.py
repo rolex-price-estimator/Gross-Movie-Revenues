@@ -101,7 +101,7 @@ def clean_APIdata(table_name):  #moviesinfo
     apidf.drop_duplicates(subset = ['title', 'released'], inplace=True)    # Drop the duplicate rows based on title & release date
     apidf = apidf[apidf['seasons'].isna()]     # Drop rows where seasons > None
     apidf.drop('seasons', axis=1, inplace=True)
-    apidf = apidf[apidf['year'].apply(lambda x: '–' not in x)]     # Drop rows without '-' in the year
+    apidf = apidf[apidf['year'].apply(lambda x: '–' not in str(x))]     # Drop rows without '-' in the year
     apidf = apidf.reset_index(drop = True)
     apidf['runtime'] = apidf['runtime'].apply(get_minutes)    # Convert runtime to minutes integer
     apidf['year'] = apidf['year'].apply(lambda x: int(x) if pd.notna(x) else np.nan)      # Recode year column to integer
@@ -191,7 +191,7 @@ def clean_APIdata(table_name):  #moviesinfo
     apidf['Music/Musical'] = apidf['genre'].apply(lambda x: has_genre(x, ['Musical', 'Music']))
     apidf['Likely TV'] = apidf['genre'].apply(lambda x: has_genre(x, ['News', 'Reality-TV', 'Talk-Show']))
 
-    apidf['cut_title'] = apidf['title'].apply(lambda x: x[:27].lower())
+    apidf['cut_title'] = apidf['title'].apply(lambda x: str(x)[:27].lower())
 
 
     return apidf
