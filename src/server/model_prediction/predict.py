@@ -37,23 +37,39 @@ def apiQuery(title):
   df = pd.DataFrame.from_dict(movieData)
 
   print("DF: ")
-  print(df)
 
-  return formatData(df)
+  df.columns = [x.lower() for x in df.columns]
+  # add seasons column to the dataframe
+  # if seasons isn't already in the current dataframe as 'NaN', add it
+  if 'seasons' not in df.columns:
+    df['seasons'] = ['NaN']
+
+
+
+  return formatData(df, title)
 
 # manipulate data to match model features for a row
-def formatData(df):
+def formatData(df, title):
   # format data here...
   print('CLEANING!!')
-  return clean_APIdata(df)
+  clean_df = clean_APIdata(df)
+  return predict(clean_df, title)
+
 
 # return model prediction on row
-def predict(row):
+def predict(df, title):
   # load in gross movie revenue model
   model = pickle.load(open('./model/model.pkl', 'rb'))
-  
-  # predict on input parameter - row
-  prediction = model.predict(row)
+
+
+  index = df.index[df['title'] == title].tolist()
+
+  print('index: ', index)
+
+  print(df.iloc[index])
+
+  # predict on input parameter - last row
+  prediction = model.predict(df.iloc[index])
 
   print('Prediction: ', prediction)
   # return generic number for template rendering
@@ -63,4 +79,5 @@ def predict(row):
   prediction = "{:,}".format(prediction)
   prediction = '$' + prediction
 
+  print('Prediction: ')
   return prediction

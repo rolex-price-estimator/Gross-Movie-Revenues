@@ -88,18 +88,30 @@ def has_genre(genres, genre_list):
         return np.nan
 
 # Function to clean API Data
-def clean_APIdata(apidf: pd.core.frame.DataFrame):  #moviesinfo
-    # apidf = replace_nan(apidf)
+def clean_APIdata(df):  #moviesinfo
+    apidf = pd.read_sql_query(f"SELECT * FROM moviesinfo WHERE year != '2022';", con=engine, parse_dates=['released'])
+    apidf.drop('movieinfo_id', axis=1, inplace=True)
+
+    print('Feature Count: ', len(apidf.columns))
+    apidf = pd.concat([apidf, df])
+
+    print('New Feature Count: ', len(apidf.columns))
+
+    apidf = replace_nan(apidf)
+
+   
     # apidf = apidf.replace('NaN', np.nan)
     # apidf = apidf.replace('N/A', np.nan)
-    
+    # apidf['year'].astype(str)
+    # print(apidf.dtypes)
 
     apidf = apidf.sort_values('year')
     apidf = apidf.reset_index(drop = True)
     apidf.drop_duplicates(subset = ['title', 'released'], inplace=True)    # Drop the duplicate rows based on title & release date
     apidf = apidf[apidf['seasons'].isna()]     # Drop rows where seasons > None
     apidf.drop('seasons', axis=1, inplace=True)
-    apidf = apidf[apidf['year'].apply(lambda x: '–' not in x)]     # Drop rows without '-' in the year
+    # apidf['year'].astype(str)
+    apidf = apidf[apidf['year'].apply(lambda x: '–' not in str(x))]     # Drop rows without '-' in the year
     apidf = apidf.reset_index(drop = True)
     apidf['runtime'] = apidf['runtime'].apply(get_minutes)    # Convert runtime to minutes integer
     apidf['year'] = apidf['year'].apply(lambda x: int(x) if pd.notna(x) else np.nan)      # Recode year column to integer
@@ -189,7 +201,7 @@ def clean_APIdata(apidf: pd.core.frame.DataFrame):  #moviesinfo
     apidf['Music/Musical'] = apidf['genre'].apply(lambda x: has_genre(x, ['Musical', 'Music']))
     apidf['Likely TV'] = apidf['genre'].apply(lambda x: has_genre(x, ['News', 'Reality-TV', 'Talk-Show']))
 
-    apidf['cut_title'] = apidf['title'].apply(lambda x: x[:27].lower())
+    apidf['cut_title'] = apidf['title'].apply(lambda x: str(x)[:27].lower())
 
 
     return apidf
@@ -254,7 +266,7 @@ def join_df(table_name1, table_name2):
 
     return df_final
 
-print(clean_APIdata('moviesinfo').shape)
-print(scrape_data('moviesgross').shape)    
-print(join_df('moviesinfo','moviesgross').shape)     
+# print(clean_APIdata('moviesinfo').shape)
+# print(scrape_data('moviesgross').shape)    
+# print(join_df('moviesinfo','moviesgross').shape)     
 
