@@ -87,18 +87,6 @@ def has_genre(genres, genre_list):
     else: 
         return np.nan
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Function to clean API Data
 def clean_APIdata(table_name):  #moviesinfo
     apidf = pd.read_sql_query(f"SELECT * from {table_name}", con=engine, parse_dates = ['released'])
@@ -208,10 +196,6 @@ def clean_APIdata(table_name):  #moviesinfo
 
     return apidf
 
-
-    
-
-
 # Function to clean scraped data
 def scrape_data(table_name):    #moviesgross
     # Read data
@@ -275,4 +259,4 @@ def join_df(table_name1, table_name2):
 print(clean_APIdata('moviesinfo').shape)
 print(scrape_data('moviesgross').shape)    
 print(join_df('moviesinfo','moviesgross').shape)     
-                 
+
