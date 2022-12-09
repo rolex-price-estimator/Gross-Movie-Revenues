@@ -9,9 +9,6 @@ import psycopg2
 from database_info.dbinformation import db_info
 import pandas as pd
 
-## Full scraper of the-numbers site capturing data from 2010-2021
-
-
 def getMovies():
     ## Scraping The-Numbers website for upcoming releases
     URL = "https://www.the-numbers.com/movies/release-schedule"
@@ -58,7 +55,7 @@ def loadAndInsertIntoDatabase():
                 # read in created csv_file and convert to dataframe, read in dataframe
 
                 sql_stmt = """
-                INSERT INTO moviesgross (title)
+                INSERT INTO movies2023 (title)
                 VALUES (%s);
                 """
 
