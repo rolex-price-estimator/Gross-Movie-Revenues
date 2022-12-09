@@ -204,12 +204,18 @@ def clean_APIdata(df):  #moviesinfo
     apidf['cut_title'] = apidf['title'].apply(lambda x: str(x)[:27].lower())
 
 
+    apidf.drop(['released', 'rated', 'genre', 'director', 'writer', 'actors', 'language', 'country', 'poster', 'cut_title'], axis=1, inplace=True)
+
+    apidf.rename(columns={'language_coded': 'language', 'country_coded': 'country'} , inplace=True)
+
+    print(apidf.columns)
+
     return apidf
 
 # Function to clean scraped data
 def scrape_data(table_name):    #moviesgross
     # Read data
-    scrapedf = pd.read_sql_query(f"SELECT * from {table_name}", con=engine, parse_dates = ['release_date'])
+    scrapedf = pd.read_sql_query(f"SELECT * from moviesgross", con=engine, parse_dates = ['release_date'])
 
 
     scrapedf.drop('moviegross_id', axis = 1, inplace=True)

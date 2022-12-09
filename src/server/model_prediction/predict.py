@@ -64,9 +64,11 @@ def predict(df, title):
 
   index = df.index[df['title'] == title].tolist()
 
-  print('index: ', index)
+  # print('index: ', index)
 
-  print(df.iloc[index])
+  # print(df.iloc[index])
+
+  # print(df.columns)
 
   # predict on input parameter - last row
   prediction = model.predict(df.iloc[index])
