@@ -6,6 +6,8 @@ import pandas as pd
 # import serialized model
 import pickle
 
+#import data cleaning method
+from scripts.CleaningScript import clean_APIdata
 
 def apiQuery(title):
   url = "https://moviesdb5.p.rapidapi.com/om"
@@ -42,8 +44,8 @@ def apiQuery(title):
 # manipulate data to match model features for a row
 def formatData(df):
   # format data here...
-  print("IN HERE")
-  return predict(df)
+  print('CLEANING!!')
+  return clean_APIdata(df)
 
 # return model prediction on row
 def predict(row):
@@ -51,10 +53,10 @@ def predict(row):
   model = pickle.load(open('./model/model.pkl', 'rb'))
   
   # predict on input parameter - row
-  # prediction = model.predict(row)
+  prediction = model.predict(row)
 
+  print('Prediction: ', prediction)
   # return generic number for template rendering
-  prediction = 1029384756
 
   # format prediction into human readable string
   # representanted in dollar format

@@ -12,11 +12,13 @@ def getMovieNames():
   with engine.connect() as connection: 
     # iterate through each row in our data list
     try:
-      # read in created csv_file and convert to dataframe, read in dataframe
+      # grab movie titles from moviesinfo that have not been used in model training
+      # movies with year 2022
 
       sql_stmt = """
       SELECT DISTINCT title
       FROM moviesinfo
+      WHERE year = '2022'
       LIMIT 200;
       """
 
