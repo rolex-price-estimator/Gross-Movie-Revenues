@@ -2,7 +2,7 @@ import requests
 import json
 import model_prediction.config as config
 import pandas as pd
-
+import numpy as np
 # import serialized model
 import pickle
 
@@ -63,21 +63,28 @@ def predict(df, title):
 
 
   index = df.index[df['title'] == title].tolist()
+  df.drop(['title'], axis=1, inplace=True)
 
   # print('index: ', index)
 
   # print(df.iloc[index])
 
-  # print(df.columns)
+  print(df.columns)
+
+  print("ROW:::")
+  print(df.iloc[index])
 
   # predict on input parameter - last row
   prediction = model.predict(df.iloc[index])
 
-  print('Prediction: ', prediction)
+ 
+
+  # print('Prediction: ', prediction)
   # return generic number for template rendering
 
   # format prediction into human readable string
   # representanted in dollar format
+  prediction = np.round(prediction[0], 0)
   prediction = "{:,}".format(prediction)
   prediction = '$' + prediction
 

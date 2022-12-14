@@ -208,7 +208,7 @@ def clean_APIdata(df):  #moviesinfo
 
     apidf.rename(columns={'language_coded': 'language', 'country_coded': 'country'} , inplace=True)
 
-    print(apidf.columns)
+    # print(apidf.columns)
 
     return apidf
 
