@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+
+  <title>Prediction</title>
+</head>
+<body>
+  <div class="title">
+    <h1>Model Prediction</h1>
+  </div>
+  <div class="form">
+    
+    <h1 class="header">Movie: {{title}}</h1>
+    <h1 class="header">Predicted Gross Revenue: {{model_prediction}}</h1>
+
+  </div>
+
+  <div class="newPred">
+    <a href="/">Make a New Prediction!</a>
+  </div>
+</body>
+</html>

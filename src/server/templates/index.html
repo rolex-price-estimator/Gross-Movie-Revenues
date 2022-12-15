@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+  <title>Gross Revenue Predictions</title>
+</head>
+<body>
+  <div class="title">
+    <h1>Gross Revenue Predictions</h1>
+  </div>
+
+  <div class="form">
+    <div>
+      <h1 class="header">
+        Select Movie:
+      </h1>
+    </div>
+    <form class="box" method="post" action="/predict">
+      <div>
+        <select name="movie_titles" id=movie_titles>
+          {% for movie_title in movie_titles %}
+            <option name={{movie_attributes[loop.index0]}} value={{movie_attributes[loop.index0]}}>{{movie_title}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <input class="submit" type="submit" value="Predict!"/>
+    </form>
+  </div>
+</body>
+</html>
