@@ -22,12 +22,6 @@
    Additional tables created that can be deleted to free up space:
     - movieinfo: has unformated data for movie information, use moviesinfo
     - test:      used to structure column sizes for moviesgross
-    
-2. API used to get information about movies:
-   MoviesDB API found on Rapid API
-   Link:
-   - https://rapidapi.com/standingapi-standingapi-default/api/moviesdb5
-   Need a rapidAPI Key specific for MoviesDB, limited to 50 requests for free tier
 
 ## 3. List of Experiments Ran
 
