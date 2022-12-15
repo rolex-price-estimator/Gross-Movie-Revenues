@@ -2,7 +2,12 @@ import requests
 import json
 import model_prediction.config as config
 import pandas as pd
+import numpy as np
 # import serialized model
+import pickle
+
+#import data cleaning method
+from scripts.CleaningScript import clean_APIdata
 
 def apiQuery(title):
   url = "https://moviesdb5.p.rapidapi.com/om"
@@ -32,26 +37,56 @@ def apiQuery(title):
   df = pd.DataFrame.from_dict(movieData)
 
   print("DF: ")
-  print(df)
 
-  return formatData(df)
+  df.columns = [x.lower() for x in df.columns]
+  # add seasons column to the dataframe
+  # if seasons isn't already in the current dataframe as 'NaN', add it
+  if 'seasons' not in df.columns:
+    df['seasons'] = ['NaN']
+
+
+
+  return formatData(df, title)
 
 # manipulate data to match model features for a row
-def formatData(df):
+def formatData(df, title):
   # format data here...
-  print("IN HERE")
-  return predict(df)
+  print('CLEANING!!')
+  clean_df = clean_APIdata(df)
+  return predict(clean_df, title)
+
 
 # return model prediction on row
-def predict(row):
-  # make model prediction here and return...
-  print("ALSO IN HERE!")
+def predict(df, title):
+  # load in gross movie revenue model
+  model = pickle.load(open('./model/model.pkl', 'rb'))
+
+
+  index = df.index[df['title'] == title].tolist()
+  df.drop(['title'], axis=1, inplace=True)
+
+  # print('index: ', index)
+
+  # print(df.iloc[index])
+
+  print(df.columns)
+
+  print("ROW:::")
+  print(df.iloc[index])
+
+  # predict on input parameter - last row
+  prediction = model.predict(df.iloc[index])
+
+ 
+
+  # print('Prediction: ', prediction)
   # return generic number for template rendering
-  prediction = 1029384756
 
   # format prediction into human readable string
   # representanted in dollar format
+  prediction = np.round(prediction[0], 0)
   prediction = "{:,}".format(prediction)
   prediction = '$' + prediction
 
+  print('Prediction: ')
   return prediction
