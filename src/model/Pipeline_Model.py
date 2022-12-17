@@ -19,6 +19,8 @@ from datetime import datetime
 from sklearn.feature_extraction.text import TfidfVectorizer
 import nltk
 from nltk.corpus import stopwords
+import os
+import boto3
 
 # uncomment if running for the first time
 # import nltk
@@ -65,14 +67,6 @@ preprocessor = ColumnTransformer(
         ('category', categorical_preprocessor, categorical_cols)
     ])
 
-
-rf_pipe = make_pipeline(
-    preprocessor, 
-    StandardScaler(with_mean=False), 
-    RandomForestRegressor(random_state = 42)
-)
-
-
 rf_pipe = make_pipeline(
     preprocessor, 
     StandardScaler(with_mean=False), 
@@ -82,5 +76,54 @@ rf_pipe = make_pipeline(
                           random_state = 42)
 )
 rf_pipe.fit(X_train, y_train)
+test_score = rf_pipe.score(X_test, y_test)
 filename= 'src/model/model.pkl'
 pkl.dump(rf_pipe, open(filename, 'wb'))
+
+###################################################
+# upload to S3 using boto3
+
+
+# count how many times this script gets called
+count = 0
+if not os.path.exists('src\model\log.txt'):
+    with open('log.txt','w') as f:
+        f.write('0')
+with open('log.txt','r') as f:
+    st = int(f.read())
+    count = st
+    st+=1 
+with open('log.txt','w') as f:
+    f.write(str(st))
+
+#### add in access and secret key// alternatively you can add a aws 
+#### access key and secret key to a default location ~/.aws/credentials
+client = boto3.client(
+    's3',
+    ####uncomment lines below. I believe you only need the first 2###
+    # aws_access_key_id=ACCESS_KEY,
+    # aws_secret_access_key=SECRET_KEY,
+    # aws_session_token=SESSION_TOKEN
+)
+
+##### add bucket name here ####
+##### (can be anything unique that doesn't already exists) ####
+bucket_name='############'
+
+# create bucket might need to make it only make it once 
+# add if statement if necessary (haven't tested)
+response1 = client.create_bucket(
+ ACL='private',
+ Bucket=bucket_name
+ )
+
+
+# open as byte reader and upload pickle file with updating file name 
+# and metadata of r2 test score
+
+with open('src\model\model.pkl', 'rb') as data:
+    # change bucket name if necessary
+    client.upload_fileobj(data, bucket_name, str(count) + 'model.pkl', 
+                        ExtraArgs = {'Metadata': {'score' : str(test_score)}})
+
+
